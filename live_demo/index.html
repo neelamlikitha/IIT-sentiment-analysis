@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7fb">
+  <meta name="theme-color" content="#f5f6fb">
   <meta name="description" content="A private, browser-based VADER-style sentiment analyzer.">
   <title>Sentiment Studio | IIT Sentiment Analysis</title>
   <link rel="stylesheet" href="styles.css">
@@ -16,88 +16,153 @@
         <span class="brand-mark" aria-hidden="true">S</span>
         <span>Sentiment<span class="brand-light">Studio</span></span>
       </a>
-      <span class="privacy-note"><span class="privacy-dot"></span> Private by design · Runs in your browser</span>
+      <span class="privacy-note"><span class="privacy-dot"></span> Private, in-browser analysis</span>
     </header>
 
-    <section class="intro" aria-labelledby="page-title">
-      <p class="eyebrow"><span class="eyebrow-line"></span> IIT SENTIMENT ANALYSIS · LIVE DEMO</p>
-      <h1 id="page-title">How does your text <span class="title-accent">feel?</span></h1>
-      <p class="intro-copy">Explore the tone behind a review, message, or thought with a quick sentiment check.</p>
-    </section>
+    <div class="workspace">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="live-mark"></span> IIT SENTIMENT ANALYSIS <span class="eyebrow-divider">/</span> LIVE DEMO</p>
+        <h1 id="page-title">Read between<br>the <span class="title-accent">lines.</span></h1>
+        <p class="intro-copy">Understand the tone behind a review, message, or idea with a quick, thoughtful sentiment check.</p>
 
-    <section class="analyzer-card" aria-label="Sentiment analyzer">
-      <div class="card-heading">
-        <div>
-          <h2>Analyze a piece of text</h2>
-          <p>Write something or pick a sample to get started.</p>
+        <div class="privacy-callout">
+          <span class="privacy-callout-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 4.5-2.9 7.7-7 10-4.1-2.3-7-5.5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <span><strong>Private by design</strong><small>Your text stays on this device.</small></span>
+          <span class="local-pill"><span></span> LOCAL</span>
         </div>
-        <span class="engine-badge"><span aria-hidden="true">✦</span> Browser-based VADER analyzer</span>
-      </div>
 
-      <label class="sr-only" for="review-text">Text to analyze</label>
-      <div class="input-wrap">
-        <textarea id="review-text" maxlength="5000" placeholder="Type or paste a review here...&#10;&#10;For example: The story was beautiful and the cast made every moment feel special." aria-describedby="input-help character-count"></textarea>
-        <span class="input-corner" aria-hidden="true">Aa</span>
-      </div>
-      <div class="input-meta">
-        <span id="input-help">Your text stays on this device.</span>
-        <span id="character-count">0 / 5,000</span>
-      </div>
-
-      <div class="form-actions">
-        <button class="analyze-button" id="analyze-button" type="button">
-          <span>Analyze sentiment</span>
-          <span class="button-arrow" aria-hidden="true">→</span>
-        </button>
-        <span class="shortcut-hint">or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
-      </div>
-
-      <p class="message" id="input-message" role="alert" hidden></p>
-
-      <div class="samples">
-        <span class="samples-label">TRY A SAMPLE</span>
-        <div class="sample-list">
-          <button class="sample-button sample-positive" type="button" data-sample="I absolutely loved this movie! The performances were wonderful and the ending made me so happy.">
-            <span class="sample-dot" aria-hidden="true"></span> Positive
-          </button>
-          <button class="sample-button sample-negative" type="button" data-sample="This was a terrible experience. The service was rude, the food was cold, and I would never go back.">
-            <span class="sample-dot" aria-hidden="true"></span> Negative
-          </button>
-          <button class="sample-button sample-neutral" type="button" data-sample="The package arrived on Tuesday. It was placed on the front desk.">
-            <span class="sample-dot" aria-hidden="true"></span> Neutral
-          </button>
+        <div class="feature-list" aria-label="Analyzer features">
+          <article class="feature-row">
+            <span class="feature-icon feature-icon-purple" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h17"/><path d="m7 15 4-4 3 2 5-6"/></svg>
+            </span>
+            <div><h2>Three clear outcomes</h2><p>Positive, negative, or neutral—with the compound score that drives the label.</p></div>
+          </article>
+          <article class="feature-row">
+            <span class="feature-icon feature-icon-blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 12h3l2-6 4 12 2-6h5"/></svg>
+            </span>
+            <div><h2>Language-aware signals</h2><p>The local rules account for negation, emphasis, capitalization, and contrast.</p></div>
+          </article>
         </div>
-      </div>
 
-      <section class="result-panel" id="result-panel" aria-live="polite" aria-atomic="true" hidden>
-        <div class="result-topline">
-          <span class="result-label">SENTIMENT RESULT</span>
-          <span class="result-badge" id="result-badge">Neutral</span>
-        </div>
-        <div class="result-main">
-          <div class="result-copy">
-            <h3 id="result-title">Your text feels neutral.</h3>
-            <p id="result-explanation"></p>
+        <aside class="how-card" aria-labelledby="how-title">
+          <div class="how-heading">
+            <span class="how-icon" aria-hidden="true">i</span>
+            <h2 id="how-title">A simple, transparent read</h2>
           </div>
-          <div class="score-card">
-            <span class="score-label">COMPOUND SCORE</span>
-            <strong id="compound-score">0.000</strong>
-            <div class="score-track" aria-hidden="true"><span id="score-marker"></span></div>
-            <div class="score-scale"><span>−1</span><span>0</span><span>+1</span></div>
-          </div>
-        </div>
-        <p class="result-footnote">The compound score ranges from −1 (most negative) to +1 (most positive).</p>
+          <p>Text is scored against a compact, embedded VADER-style lexicon. Its compound score maps to one of three labels—no uploads, API calls, or probability claims.</p>
+          <span class="model-note">This demo is separate from the project's trained Naive Bayes model.</span>
+        </aside>
       </section>
-    </section>
 
-    <aside class="method-note">
-      <span class="method-icon" aria-hidden="true">i</span>
-      <p><strong>About this demo</strong> This is a self-contained, browser-based VADER-style analyzer with an embedded lexicon. It does not use the project’s trained Naive Bayes model, and its scores may differ from the full NLTK VADER lexicon.</p>
-    </aside>
+      <section class="analyzer-card" aria-label="Sentiment analyzer">
+        <div class="card-heading">
+          <div>
+            <div class="section-kicker">SENTIMENT CHECK</div>
+            <h2>What does your text say?</h2>
+            <p>Paste a passage or choose a sample to begin.</p>
+          </div>
+          <span class="engine-badge"><span class="engine-dot" aria-hidden="true"></span> VADER-style</span>
+        </div>
+
+        <label class="sr-only" for="review-text">Text to analyze</label>
+        <div class="input-wrap">
+          <textarea id="review-text" maxlength="5000" placeholder="Write or paste your text here..." aria-describedby="input-help character-count"></textarea>
+          <span class="input-prompt" aria-hidden="true">YOUR TEXT</span>
+        </div>
+        <div class="input-meta">
+          <span id="input-help"><span class="lock-icon" aria-hidden="true">●</span> Analyzed privately in your browser</span>
+          <span id="character-count">0 / 5,000</span>
+        </div>
+
+        <div class="form-actions">
+          <button class="analyze-button" id="analyze-button" type="button">
+            <span class="button-spinner" aria-hidden="true"></span>
+            <span class="button-label">Analyze sentiment</span>
+            <span class="button-arrow" aria-hidden="true">↗</span>
+          </button>
+          <span class="shortcut-hint" id="analysis-shortcut">or <kbd>Ctrl</kbd><span class="shortcut-plus">+</span><kbd>Enter</kbd></span>
+        </div>
+
+        <p class="message" id="input-message" role="alert" hidden></p>
+
+        <div class="samples">
+          <div class="samples-heading">
+            <span class="samples-label">TRY A SAMPLE</span>
+            <span class="samples-hint">Adds text to the editor</span>
+          </div>
+          <div class="sample-list">
+            <button class="sample-button sample-positive" type="button" data-sample="I absolutely loved this movie! The performances were wonderful and the ending made me so happy.">
+              <span class="sample-dot" aria-hidden="true"></span> Positive
+            </button>
+            <button class="sample-button sample-negative" type="button" data-sample="This was a terrible experience. The service was rude, the food was cold, and I would never go back.">
+              <span class="sample-dot" aria-hidden="true"></span> Negative
+            </button>
+            <button class="sample-button sample-neutral" type="button" data-sample="The package arrived on Tuesday. It was placed on the front desk.">
+              <span class="sample-dot" aria-hidden="true"></span> Neutral
+            </button>
+          </div>
+        </div>
+
+        <div class="result-empty" id="result-empty">
+          <span class="empty-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 18V6"/><path d="M4 18h16"/><path d="m7 14 4-4 3 2 4-5"/></svg>
+          </span>
+          <div>
+            <h3>Ready when you are</h3>
+            <p>Your sentiment and compound score will show here.</p>
+          </div>
+        </div>
+
+        <section class="result-panel" id="result-panel" aria-live="polite" aria-atomic="true" hidden>
+          <div class="result-heading">
+            <div class="result-title-wrap">
+              <span class="result-label"><span class="result-live-dot"></span> ANALYSIS RESULT</span>
+              <h3 id="result-title">Your text leans neutral.</h3>
+              <p class="result-caption">Overall sentiment classification</p>
+            </div>
+            <div class="score-card">
+              <div class="score-heading">
+                <span class="score-label">COMPOUND SCORE</span>
+                <span class="score-range">−1 to +1</span>
+              </div>
+              <strong id="compound-score">0.000</strong>
+              <div class="score-track" id="score-track" role="img" aria-label="Compound score on a scale from negative one to positive one"><span id="score-marker"></span></div>
+              <div class="score-scale"><span>Negative</span><span>Neutral</span><span>Positive</span></div>
+            </div>
+          </div>
+          <p class="result-explanation" id="result-explanation"></p>
+          <div class="sentiment-grid" aria-label="Sentiment categories">
+            <article class="sentiment-card sentiment-positive" data-result-sentiment="positive">
+              <div class="sentiment-card-top"><span class="sentiment-symbol" aria-hidden="true">+</span><span class="sentiment-status">Not selected</span></div>
+              <h4>Positive</h4>
+              <p>Score ≥ +0.05</p>
+            </article>
+            <article class="sentiment-card sentiment-neutral" data-result-sentiment="neutral">
+              <div class="sentiment-card-top"><span class="sentiment-symbol" aria-hidden="true">•</span><span class="sentiment-status">Not selected</span></div>
+              <h4>Neutral</h4>
+              <p>Above −0.05 and below +0.05</p>
+            </article>
+            <article class="sentiment-card sentiment-negative" data-result-sentiment="negative">
+              <div class="sentiment-card-top"><span class="sentiment-symbol" aria-hidden="true">−</span><span class="sentiment-status">Not selected</span></div>
+              <h4>Negative</h4>
+              <p>Score ≤ −0.05</p>
+            </article>
+          </div>
+          <p class="result-footnote">The VADER-style compound score is a normalized sentiment measure from −1 (most negative) to +1 (most positive). This demo labels scores ≥ +0.05 Positive, ≤ −0.05 Negative, and scores between them Neutral. It is not a confidence percentage.</p>
+        </section>
+      </section>
+    </div>
 
     <footer class="footer">
-      <span>IIT Sentiment Analysis · Live Demo</span>
-      <span>No API calls <span class="footer-separator">·</span> No external assets</span>
+      <a class="footer-brand" href="#" aria-label="Sentiment Studio home"><span class="footer-mark">S</span> Sentiment Studio</a>
+      <div class="footer-credits">
+        <span><strong>LIVE DEMO</strong> HTML · CSS · JavaScript</span>
+        <span><strong>PROJECT</strong> Python · NLTK · scikit-learn · NumPy · Matplotlib · Seaborn</span>
+      </div>
     </footer>
   </main>
 </body>

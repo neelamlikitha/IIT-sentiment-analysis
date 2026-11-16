@@ -183,19 +183,26 @@ function initDemo() {
   const analyzeButton = document.getElementById("analyze-button");
   const message = document.getElementById("input-message");
   const characterCount = document.getElementById("character-count");
+  const resultEmpty = document.getElementById("result-empty");
   const resultPanel = document.getElementById("result-panel");
-  const resultBadge = document.getElementById("result-badge");
   const resultTitle = document.getElementById("result-title");
   const resultExplanation = document.getElementById("result-explanation");
   const compoundScore = document.getElementById("compound-score");
   const scoreMarker = document.getElementById("score-marker");
+  const scoreTrack = document.getElementById("score-track");
+  const buttonLabel = analyzeButton.querySelector(".button-label");
 
   function showResult() {
     const result = analyzeSentiment(textInput.value);
     message.hidden = true;
+    analyzeButton.disabled = false;
+    analyzeButton.classList.remove("is-loading");
+    analyzeButton.removeAttribute("aria-busy");
+    buttonLabel.textContent = "Analyze sentiment";
 
     if (!result.valid) {
       resultPanel.hidden = true;
+      resultEmpty.hidden = false;
       message.textContent = result.error;
       message.hidden = false;
       textInput.focus();
@@ -209,25 +216,45 @@ function initDemo() {
     };
 
     resultPanel.dataset.sentiment = result.label.toLowerCase();
-    resultBadge.textContent = result.label;
-    resultTitle.textContent = `Your text feels ${result.label.toLowerCase()}.`;
+    resultTitle.textContent = `Your text leans ${result.label.toLowerCase()}.`;
     resultExplanation.textContent = explanations[result.label];
     compoundScore.textContent = result.compound.toFixed(3);
     scoreMarker.style.left = `${((result.compound + 1) / 2) * 100}%`;
+    scoreTrack.setAttribute("aria-label", `Compound score ${result.compound.toFixed(3)} on a scale from negative one to positive one`);
+    document.querySelectorAll("[data-result-sentiment]").forEach((card) => {
+      const isSelected = card.dataset.resultSentiment === result.label.toLowerCase();
+      card.dataset.active = String(isSelected);
+      card.querySelector(".sentiment-status").textContent = isSelected ? "Detected" : "Not selected";
+    });
+    resultEmpty.hidden = true;
     resultPanel.hidden = false;
   }
 
   textInput.addEventListener("input", () => {
     characterCount.textContent = `${textInput.value.length.toLocaleString()} / 5,000`;
     message.hidden = true;
+    resultPanel.hidden = true;
+    resultEmpty.hidden = false;
   });
 
-  analyzeButton.addEventListener("click", showResult);
+  analyzeButton.addEventListener("click", () => {
+    if (analyzeButton.disabled) {
+      return;
+    }
+
+    analyzeButton.disabled = true;
+    analyzeButton.classList.add("is-loading");
+    analyzeButton.setAttribute("aria-busy", "true");
+    buttonLabel.textContent = "Analyzing…";
+    resultEmpty.hidden = true;
+    message.hidden = true;
+    requestAnimationFrame(showResult);
+  });
 
   textInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
-      showResult();
+      analyzeButton.click();
     }
   });
 
@@ -235,7 +262,7 @@ function initDemo() {
     button.addEventListener("click", () => {
       textInput.value = button.dataset.sample;
       textInput.dispatchEvent(new Event("input", { bubbles: true }));
-      showResult();
+      textInput.focus();
     });
   });
 }
